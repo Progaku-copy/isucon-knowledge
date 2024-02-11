@@ -26,6 +26,15 @@ docker-compose down -v
 docker images -qa | xargs docker rmi
 ```
 
+- コンテナへの出入り
+
+```sh
+# in
+docker-compose exec node-exporter sh
+# out
+exit
+```
+
 ## アクセス
 
 `http://localhost:9090/`
@@ -34,6 +43,7 @@ docker images -qa | xargs docker rmi
 
 ```
 node_cpu_seconds_total{job="node"}
+avg without(cpu) (rate(node_cpu_seconds_total{model!="idle"}[1m]))
 ```
 
 ## 参考
