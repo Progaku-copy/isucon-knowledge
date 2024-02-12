@@ -1,0 +1,21 @@
+# アラートルールのグループを定義します。
+groups:
+# グループの名前。このグループに関連するルールの論理的な集まりを表します。
+- name: example.com
+  # グループ内の個別のアラートルールを定義します。
+  rules:
+  # アラートの名前。このアラートがトリガーされた時に表示されます。
+  - alert: instance_down
+    # アラートの条件をPromQLで記述します。ここでは、インスタンスがダウンしている（upメトリクスが0になっている）場合にマッチします。
+    expr: up == 0
+    # アラート条件が真となった後、この期間が経過するとアラートが発生します。ここでは5分間設定されています。
+    for: 5m
+    # アラートに付与されるラベルを定義します。ここでは、アラートの重大度を`critical`としています。
+    labels:
+      severity: critical
+    # アラート通知に含める追加情報を定義します。
+    annotations:
+      # アラート発生時の通知メッセージ。Prometheusの変数を使用してカスタマイズされたメッセージを作成しています。
+      firing_text: "[{{ $labels.env }}] {{ $labels.instance }} has been down for more than 5 minutes."
+      # アラートが解決した時の通知メッセージ。このキーはPrometheusやAlertmanagerのデフォルトでは使用されませんが、カスタム通知のテンプレートで利用することができます。
+      resolved_text: "[{{ $labels.env }}] {{ $labels.instance }} has recovered."

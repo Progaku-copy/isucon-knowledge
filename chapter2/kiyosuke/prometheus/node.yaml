@@ -1,0 +1,5 @@
+- targets:
+    - "host.docker.internal:2112"
+  labels:
+    job: golang_app
+    env: development
