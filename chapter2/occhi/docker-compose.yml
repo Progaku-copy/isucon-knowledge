@@ -10,7 +10,20 @@ services:
     ports:
       - 9090:9090
     restart: always
-
+  target_app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: target_app
+    volumes:
+      - ./app_server:/app
+    ports:
+      - '3111:4567'
+      - '9100:9100'
+    tty: true
+    working_dir: /app
+    command: node_exporter
+    
 volumes:
   metrics_data:
     external: true
